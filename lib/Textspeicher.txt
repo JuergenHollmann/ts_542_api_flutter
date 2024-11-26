@@ -1,0 +1,138 @@
+Rückgabe-Datenstruktur der Anfrage:
+// [{
+//   "albumId": 1,
+//   "id": 1,
+//   "title": "accusamus beatae ad facilis cum similique qui sunt",
+//   "url": "https://via.placeholder.com/600/92c952",
+//   "thumbnailUrl": "https://via.placeholder.com/150/92c952"
+// }]
+
+class GetUriFromAPI extends StatelessWidget {
+  const GetUriFromAPI({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all(Colors.blue),
+      ),
+      onPressed: () async {
+        // Für die HTTP-Server-Anfrage wird der ---> import 'package:http/http.dart' as http; <-- verwendet.
+        // Der "uriString" ist der Link zum Server.
+        const uriString = "https://jsonplaceholder.typicode.com/photos";
+
+        // Die Anfrage an den Server wird mit "await get(Uri.parse(uriString));" gestellt.
+        // Als Antwort kommt die "reponse" zurück.
+        final response = await http.get(Uri.parse(uriString));
+
+        List<String> photoTitles = [];
+        log("0105 - leere Liste: $photoTitles");
+
+        // Die Daten sind im "response.body" als JSON-String, der umgewandelt werden muss.
+        // Dafür wird die Funktion "jsonDecode()"" verwendet.
+        final photoData = json.decode(response.body);
+        // Der Rückgabewert ist entweder eine Map oder eine List oder eine verschachtelte Version davon (je nachdem).
+        // log("0102 $photoData");  // deaktiviert, weil 500 Photos in der Liste sind.
+
+        // die Beschreibung eines Photos "photoTitle" anzeigen:
+        final photoTitle = photoData[0]["title"];
+        log("0116 - uriString:  $uriString");
+        log("0117 - photoTitle: $photoTitle");
+        log("--------------------------------------------------------------------------------------------");
+      },
+      child: const Text(
+        "Neue API-Anfrage stellen",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+          fontWeight: FontWeight.w900,
+        ),
+      ),
+    );
+  }
+}
+
+/*--------------------------------------------------------------------------------------------*/
+// [{
+//   "albumId": 1,
+//   "id": 1,
+//   "title": "accusamus beatae ad facilis cum similique qui sunt",
+//   "url": "https://via.placeholder.com/600/92c952",
+//   "thumbnailUrl": "https://via.placeholder.com/150/92c952"
+// }]
+
+// // Foto laden
+// Future<List<dynamic>> getphotos() async {
+//   final uri = Uri.parse("https://jsonplaceholder.typicode.com/photos");
+//   final http.Response response = await http.get(uri);
+//   log("0023 - $response");
+
+//   if (response.statusCode == 200) {
+//     final String data = response.body;
+//     // log("0026 - $data"); // wäre zu lange, weil 500 Photos vorhanden sind.
+//     final List<dynamic> decodeJson = jsonDecode(data);
+//     final photos = decodeJson[0];
+//     log("0029 - $photos");
+//     //return photos;
+//   } else {
+//     // return Future.error(response.statusCode);
+//   }
+//   return [];
+// }
+
+// class MainApp extends StatefulWidget {
+//   const MainApp({super.key});
+
+//   @override
+//   State<MainApp> createState() => _MainAppState();
+// }
+
+// class _MainAppState extends State<MainApp> {
+//   String photoTitle = "";
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     getPhotoTitle();
+//     getFirstPhoto();
+//   }
+
+// // die Beschreibung eines Photos "photoTitle" anzeigen:
+//   void getPhotoTitle() async {
+//     final photoTitle = await getphotos();
+//     log("0058 - $photoTitle");
+//   }
+
+//   // das erste Foto holen und setzen
+//   void getFirstPhoto() async {
+//     final photos = await getphotos();
+//     log("0064 - Liste photos ist noch leer, weil await: $photos");
+
+//     // final Map<String, dynamic> firstPhoto = photos[0];
+//     //final List<dynamic> firstPhoto = photos[0]; // error
+//     //final List<dynamic> firstPhoto = photos[0]; // error
+
+//     // final String firstPhotoTitle = firstPhoto[0];
+//     // log("0060 - firstPhotoTitle: $firstPhotoTitle");
+
+//      final String firstPhotoTitle = photos[0];
+
+//     setState(() {
+//       photoTitle = firstPhotoTitle;
+//     });
+//   }
+
+
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(
+//         body: Center(
+//           child: Text(photoTitle),
+//         ),
+//       ),
+//     );
+//   }
+// }
+/*--------------------------------------------------------------------------------------------*/
