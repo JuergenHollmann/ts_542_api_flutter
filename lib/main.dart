@@ -20,7 +20,7 @@ class _MainAppState extends State<MainApp> {
   Future<String> getDatafromAPI() async {
     // Die URL zur API:
     String url =
-        "https://dummyjson.com/products/1"; // wenn die url Fehler enthält, werden Fehlermeldungen ausgelöst!
+        "https://dummyjson.com/products/1123456782345"; // wenn die url Fehler enthält, werden Fehlermeldungen ausgelöst!
 
     // Die URL in eine Uri umwandeln (parsen):
     Uri uri = Uri.parse(url);
